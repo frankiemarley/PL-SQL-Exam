@@ -162,6 +162,16 @@ export default function QuizApp() {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h2 className="text-sm font-semibold opacity-90">Question {currentIndex + 1}/{questions.length}</h2>
+                <div className="flex gap-4 mt-2 text-sm">
+                  <div className="flex items-center gap-1">
+                    <Check className="w-4 h-4 text-green-300" />
+                    <span>{stats.correct}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <X className="w-4 h-4 text-red-300" />
+                    <span>{stats.total - stats.correct}</span>
+                  </div>
+                </div>
               </div>
               <div className={`text-4xl font-bold ${timeLeft <= 10 ? 'text-red-300' : ''}`}>
                 {timeLeft}s
