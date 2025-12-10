@@ -1,0 +1,275 @@
+[
+  {
+    "question": "In which scenarios would you use the DETERMINISTIC clause with functions? (Choose two)",
+    "code": null,
+    "options": [
+      "for functions used in an ORDER BY clause",
+      "for functions that use package variables",
+      "for functions used in a WHERE clause",
+      "for functions whose result depends on the schema objects",
+      "for functions whose result depends on the state of session variables"
+    ],
+    "answers": [
+      "for functions used in an ORDER BY clause",
+      "for functions used in a WHERE clause"
+    ],
+    "explanation": "A DETERMINISTIC function always returns the same result for the same input values, allowing Oracle to optimize performance in queries. Functions used in ORDER BY and WHERE clauses benefit from this optimization through result caching and function-based index usage."
+  },
+  {
+    "question": "Which SQL functions are valid in PL/SQL expressions? (Choose three)",
+    "code": null,
+    "options": [
+      "AVG",
+      "DECODE",
+      "COUNT",
+      "TO_NUMBER",
+      "VARIANCE",
+      "LENGTH",
+      "SUBSTR"
+    ],
+    "answers": ["TO_NUMBER", "SUBSTR", "LENGTH"],
+    "explanation": "Only single-row SQL functions can be used directly in PL/SQL expressions. TO_NUMBER, SUBSTR, and LENGTH are single-row functions. DECODE is a SQL function but not valid in pure PL/SQL expressions outside SQL statements. AVG, COUNT, and VARIANCE are aggregate functions that require a SQL query."
+  },
+  {
+    "question": "Examine these code blocks:\n\nCREATE OR REPLACE PACKAGE constant_pkg IS\n  c_mile_2_kilo    CONSTANT  NUMBER  :=  1.6093;\n  c_kilo_2_mile    CONSTANT  NUMBER  :=  0.6214;\n  c_yard_2_meter   NUMBER;\n  PROCEDURE calc(kilo_value NUMBER);\nEND constant_pkg;\n/\nSET SERVEROUTPUT ON\nBEGIN  \n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_mile_2_kilo);\n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_yard_2_meter);\nEND;\n/\n\nWhich is true?",
+    "code": "CREATE OR REPLACE PACKAGE constant_pkg IS\n  c_mile_2_kilo    CONSTANT  NUMBER  :=  1.6093;\n  c_kilo_2_mile    CONSTANT  NUMBER  :=  0.6214;\n  c_yard_2_meter   NUMBER;\n  PROCEDURE calc(kilo_value NUMBER);\nEND constant_pkg;\n/\nSET SERVEROUTPUT ON\nBEGIN  \n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_mile_2_kilo);\n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_yard_2_meter);\nEND;\n/",
+    "options": [
+      "The second code block returns 1.6093 and NULL.",
+      "The second code block returns an error because the package doesn't have a body.",
+      "The second code block returns an error because package variables cannot be accessed in the anonymous block.",
+      "The second code block returns an error because c_yard_2_meter is not initialized."
+    ],
+    "answers": ["The second code block returns an error because the package doesn't have a body."],
+    "explanation": "When a procedure is declared in a package specification, a package body must exist. The missing package body causes a compilation error when the anonymous block tries to reference the package."
+  },
+  {
+    "question": "Which are valid PL/SQL identifier names? (Choose two)",
+    "code": null,
+    "options": [
+      "c_mile_2_kilo",
+      "$employees",
+      "this_is_a_user_defined_variable",
+      "dept#_details",
+      "2_mile_c_kilo",
+      "emp,deptdetails"
+    ],
+    "answers": ["c_mile_2_kilo", "this_is_a_user_defined_variable"],
+    "explanation": "PL/SQL identifiers must start with a letter and can contain letters, digits, and underscores (_). c_mile_2_kilo and this_is_a_user_defined_variable follow these rules. $employees starts with $, dept#_details contains # (technically allowed but not best practice), 2_mile_c_kilo starts with a digit, and emp,deptdetails contains a comma."
+  },
+  {
+    "question": "Which are composite data types? (Choose two)",
+    "code": null,
+    "options": [
+      "PL/SQL Records",
+      "CLOB",
+      "INTERVAL YEAR TO MONTHS",
+      "TIMESTAMP WITH LOCAL TIMEZONE",
+      "BFILE",
+      "Nested Tables"
+    ],
+    "answers": ["PL/SQL Records", "Nested Tables"],
+    "explanation": "Composite data types hold multiple values as a single unit. PL/SQL Records group related fields, and Nested Tables are collections. CLOB, INTERVAL YEAR TO MONTH, TIMESTAMP WITH LOCAL TIMEZONE, and BFILE are scalar types holding single values."
+  },
+  {
+    "question": "Examine these rows from the EMP table:\nEMPNO\tNAME\tJOB \tSAL\tCOMM_PCT\n101\tAlice \tSA_VP\t25000 \tNULL\n102\tKing\tAD_VP\t35000\tNULL\n\nYou must write a PL/SQL block to perform these operations:\n\n    Update the JOB column if someone is promoted.\n    Update the SAL column based on the new job.\n    Update COMM_PCT based on the new job.\n\nWhich is the most efficient data type to store an entire row and perform the required updates?",
+    "code": null,
+    "options": ["INDEX BY table", "PL/SQL Record", "NESTED table", "VARRAY"],
+    "answers": ["PL/SQL Record"],
+    "explanation": "A PL/SQL Record is ideal for storing a complete table row with field-level access. It mirrors the table structure and allows easy updates to individual columns using dot notation."
+  },
+  {
+    "question": "Which are true about bind variables? (Choose three)",
+    "code": null,
+    "options": [
+      "They can be accessed inside SQL statements.",
+      "They must be initialized while declaring.",
+      "They must be coded with a leading colon (:) when accessed outside PL/SQL blocks.",
+      "They can be undefined by using the UNDEFINE keyword.",
+      "They are defined with the DEFINE keyword.",
+      "They must be coded with a leading colon (:) when referenced inside PL/SQL blocks.",
+      "They are defined with the VARIABLE keyword."
+    ],
+    "answers": [
+      "They can be accessed inside SQL statements.",
+      "They must be coded with a leading colon (:) when referenced inside PL/SQL blocks.",
+      "They are defined with the VARIABLE keyword."
+    ],
+    "explanation": "Bind variables are session-level variables created with VARIABLE, referenced with a colon prefix (:) in both SQL and PL/SQL, and can be used in SQL statements. UNDEFINE and DEFINE are for substitution variables, not bind variables."
+  },
+  {
+    "question": "Which are true about FETCH statements in explicit cursors? (Choose two)",
+    "code": null,
+    "options": [
+      "They retrieve the current row of a result set into one or more variables.",
+      "They open the cursor and position it, ready to access the first row in the result set.",
+      "They execute the cursor query, retrieve the current row into one or more variables, and advance the cursor to the next row.",
+      "They advance the cursor to the next row.",
+      "They open the cursor and retrieve the current row of the result set into one or more variables."
+    ],
+    "answers": [
+      "They retrieve the current row of a result set into one or more variables.",
+      "They advance the cursor to the next row."
+    ],
+    "explanation": "FETCH performs two actions: retrieves data from the current row into variables, and advances the cursor to the next row. Opening the cursor is done by OPEN, and query execution happens during OPEN, not FETCH."
+  },
+  {
+    "question": "Examine this code block:\n\n    DECLARE\n    c_id emp.emp#%type; c_name emp.name%type;\n    CURSOR c_emp IS SELECT emp#, name FROM emp;\n    BEGIN\n        LOOP\n         FETCH c_emp into c_id, c_name;\n               EXIT WHEN c_emp%notfound;\n          dbms_output.put_line(c_id || ' ' || c_name);\n         END LOOP;\n        CLOSE c_emp;\n    END;\n\nThe EMP table with the emp# and name columns exists.\nWhich line will cause an error upon execution?",
+    "code": "DECLARE\nc_id emp.emp#%type; c_name emp.name%type;\nCURSOR c_emp IS SELECT emp#, name FROM emp;\nBEGIN\n    LOOP\n     FETCH c_emp into c_id, c_name;\n           EXIT WHEN c_emp%notfound;\n      dbms_output.put_line(c_id || ' ' || c_name);\n     END LOOP;\n    CLOSE c_emp;\nEND;",
+    "options": ["line 10", "line 6", "line 9", "line 7"],
+    "answers": ["line 6"],
+    "explanation": "Line 6 (FETCH c_emp into c_id, c_name) causes an error because the cursor c_emp was never opened. An explicit cursor must be opened with OPEN before fetching."
+  },
+  {
+    "question": "You want to create subprograms to store graphic, text, gif, MPEG, and JPEG data in flat files. Which data type meets the requirement?",
+    "code": null,
+    "options": ["LONG RAW", "BFILE", "NCLOBs", "BLOBs", "CLOBs", "RAW"],
+    "answers": ["BFILE"],
+    "explanation": "BFILE stores references to external binary files (flat files). The actual files remain outside the database, which matches the requirement to store data in flat files."
+  },
+  {
+    "question": "Which is true about CONTINUE statements?",
+    "code": null,
+    "options": [
+      "They exit the current iteration of a loop and transfer control to the end of the loop.",
+      "They must be contained inside a LOOP statement.",
+      "They can cross a subprogram boundary.",
+      "They can be contained outside a LOOP statement."
+    ],
+    "answers": ["They exit the current iteration of a loop and transfer control to the end of the loop."],
+    "explanation": "CONTINUE skips the rest of the current loop iteration and jumps to the next iteration. It must be inside a loop and cannot cross subprogram boundaries."
+  },
+  {
+    "question": "Which are true about PL/SQL packages? (Choose two)",
+    "code": null,
+    "options": [
+      "To create packages, a user must have the CREATE PROCEDURE privilege.",
+      "Exceptions cannot be declared in package specifications.",
+      "Variables declared in package specifications are private.",
+      "Package specifications can be dropped without explicitly dropping their package bodies.",
+      "Variables declared in package specifications must be initialized."
+    ],
+    "answers": [
+      "To create packages, a user must have the CREATE PROCEDURE privilege.",
+      "Package specifications can be dropped without explicitly dropping their package bodies."
+    ],
+    "explanation": "CREATE PROCEDURE privilege is needed to create packages. Dropping a package spec invalidates but doesn't automatically drop the body. Exceptions can be declared in specs, spec variables are public, and initialization is optional."
+  },
+  {
+    "question": "Which SQL functions are valid in PL/SQL expressions? (Choose three)",
+    "code": null,
+    "options": ["VARIANCE", "COUNT", "TO_NUMBER", "SUBSTR", "LENGTH", "AVG", "DECODE"],
+    "answers": ["TO_NUMBER", "SUBSTR", "LENGTH"],
+    "explanation": "TO_NUMBER, SUBSTR, and LENGTH are single-row SQL functions valid in PL/SQL expressions. VARIANCE, COUNT, and AVG are aggregate functions requiring SQL queries. DECODE is a SQL function not valid in pure PL/SQL expressions."
+  },
+  {
+    "question": "Which are true about the DEPRECATE Pragma? (Choose two)",
+    "code": null,
+    "options": [
+      "It can DEPRECATE PL/SQL anonymous blocks.",
+      "It can DEPRECATE PL/SQL dblinks.",
+      "It can appear in a package body.",
+      "It can DEPRECATE PL/SQL exceptions.",
+      "It can appear in the declaration sections of a package specification."
+    ],
+    "answers": ["It can appear in a package body.", "It can DEPRECATE PL/SQL exceptions."],
+    "explanation": "The DEPRECATE pragma can appear in package bodies and can mark exceptions as deprecated. It cannot deprecate anonymous blocks or database links."
+  },
+  {
+    "question": "Examine this code which is attempted:\n\nSQL> SET SERVEROUTPUT ON;\nSQL> DECLARE\n  2  v_hiredate DATE := '12-June-2020';\n  3  v_salary REAL := 25000;\n  4  v_comm CONSTANT NUMBER;\n  5  BEGIN\n  6  DBMS_OUTPUT.PUT_LINE ('Hire date '  || v_hiredate);\n  7  DBMS_OUTPUT.PUT_LINE ('Salary '  || v_salary);\n  8  DBMS_OUTPUT.PUT_LINE (v_comm);\n  9  END;\n\nWhat is true about the result?",
+    "code": "SQL> SET SERVEROUTPUT ON;\nSQL> DECLARE\n  2  v_hiredate DATE := '12-June-2020';\n  3  v_salary REAL := 25000;\n  4  v_comm CONSTANT NUMBER;\n  5  BEGIN\n  6  DBMS_OUTPUT.PUT_LINE ('Hire date '  || v_hiredate);\n  7  DBMS_OUTPUT.PUT_LINE ('Salary '  || v_salary);\n  8  DBMS_OUTPUT.PUT_LINE (v_comm);\n  9  END;",
+    "options": [
+      "It returns an error at line 3.",
+      "It returns an error at line 8.",
+      "It executes and displays the result.",
+      "It returns an error at line 4."
+    ],
+    "answers": ["It returns an error at line 4."],
+    "explanation": "Line 4 declares v_comm as CONSTANT without initialization. Constants must be initialized when declared, causing a compilation error."
+  },
+  {
+    "question": "For which DDL EVENTS can triggers be created? (Choose two)",
+    "code": null,
+    "options": [
+      "CREATE DATABASE",
+      "ALTER DATABASE",
+      "CREATE CONTROLFILE",
+      "ANALYZE",
+      "TRUNCATE"
+    ],
+    "answers": ["ANALYZE", "TRUNCATE"],
+    "explanation": "DDL event triggers can be created for ANALYZE and TRUNCATE operations. CREATE DATABASE, ALTER DATABASE, and CREATE CONTROLFILE are not valid events for DDL triggers."
+  },
+  {
+    "question": "Which are true about FETCH statements in explicit cursors? (Choose two)",
+    "code": null,
+    "options": [
+      "They execute the cursor query, retrieve the current row into one or more variables, and advance the cursor to the next row.",
+      "They open the cursor and retrieve the current row of the result set into one or more variables.",
+      "They open the cursor and position it, ready to access the first row in the result set.",
+      "They advance the cursor to the next row.",
+      "They retrieve the current row of a result set into one or more variables."
+    ],
+    "answers": [
+      "They retrieve the current row of a result set into one or more variables.",
+      "They advance the cursor to the next row."
+    ],
+    "explanation": "FETCH retrieves data from the current row into variables and advances the cursor. OPEN handles opening and query execution."
+  },
+  {
+    "question": "Which is true about EXIT statements?",
+    "code": null,
+    "options": [
+      "They conditionally exit the current loop iteration and transfer control to the start of a nested loop.",
+      "They unconditionally exit the current loop iteration and transfer control to the end of the loop.",
+      "They exit the current loop iteration and transfer control to the next iteration in the current loop.",
+      "They must contain a condition specified by the WHEN clause.",
+      "They unconditionally exit the current loop iteration and transfer control to the start of the loop."
+    ],
+    "answers": ["They unconditionally exit the current loop iteration and transfer control to the end of the loop."],
+    "explanation": "EXIT terminates the loop immediately and transfers control to the statement after the loop. It can be unconditional or used with WHEN for conditional exit."
+  },
+  {
+    "question": "Which are true about PL/SQL functions? (Choose two)",
+    "code": null,
+    "options": [
+      "They must contain a DECLARE section.",
+      "They must contain a RETURN clause.",
+      "They can return values by using the RETURN clause.",
+      "They can execute as a PL/SQL statement.",
+      "They can be invoked in an INSERT statement."
+    ],
+    "answers": [
+      "They can return values by using the RETURN clause.",
+      "They can be invoked in an INSERT statement."
+    ],
+    "explanation": "Functions return values via RETURN statements and can be called in SQL statements like INSERT. They don't require a DECLARE section (declarations come after IS/AS), and they cannot execute as standalone PL/SQL statements."
+  },
+  {
+    "question": "Which are true about AUTONOMOUS TRANSACTIONs? (Choose two)",
+    "code": null,
+    "options": [
+      "All subprograms in a package can be marked as autonomous by using a PRAGMA.",
+      "They don't roll back even if the main transaction rolls back.",
+      "A nested PL/SQL block can be marked as autonomous.",
+      "Autonomous transactions must be explicitly committed or rolled back.",
+      "An anonymous PL/SQL block can be marked as autonomous."
+    ],
+    "answers": [
+      "They don't roll back even if the main transaction rolls back.",
+      "Autonomous transactions must be explicitly committed or rolled back."
+    ],
+    "explanation": "Autonomous transactions are independent and persist even if the main transaction rolls back. They require explicit COMMIT or ROLLBACK. The autonomous pragma must be applied to individual subprograms, not entire packages, and cannot be used on nested blocks."
+  },
+  {
+    "question": "Which is true about CONTINUE statements?",
+    "code": null,
+    "options": [
+      "They can be contained outside a LOOP statement.",
+      "They exit the current iteration of a loop and transfer control to the end of the loop.",
+      "They can cross a subprogram boundary.",
+      "They must be contained inside a LOOP statement."
+    ],
+    "answers": ["They exit the current iteration of a loop and transfer control to the end of the loop."],
+    "explanation": "CONTINUE skips the remainder of the current loop iteration and jumps to the next iteration. It must be inside a loop and cannot transfer control outside the subprogram."
+  }
+]
