@@ -27,8 +27,8 @@
       "LENGTH",
       "SUBSTR"
     ],
-    "answers": ["TO_NUMBER", "SUBSTR", "LENGTH"],
-    "explanation": "Only single-row SQL functions can be used directly in PL/SQL expressions. TO_NUMBER, SUBSTR, and LENGTH are single-row functions. DECODE is a SQL function but not valid in pure PL/SQL expressions outside SQL statements. AVG, COUNT, and VARIANCE are aggregate functions that require a SQL query."
+    "answers": ["TO_NUMBER", "SUBSTR", "DECODE"],
+    "explanation": "Why all are valid: VARIANCE and AVG are aggregate functions valid in SQL queries within PL/SQL; COUNT is an aggregate function valid in SQL queries within PL/SQL; TO_NUMBER, SUBSTR, LENGTH, and DECODE are single-row functions that can be used directly in PL/SQL expressions. The important distinction is that single-row functions (TO_NUMBER, SUBSTR, LENGTH, DECODE) can be used directly in PL/SQL variable assignments and expressions, whereas aggregate functions (COUNT, AVG, VARIANCE) are typically used within SELECT statements in PL/SQL, not directly in variable assignments. If the question is asking specifically about functions usable in direct PL/SQL variable assignments, then TO_NUMBER, SUBSTR, LENGTH, and DECODE would be the primary answers."
   },
   {
     "question": "Examine these code blocks:\n\nCREATE OR REPLACE PACKAGE constant_pkg IS\n  c_mile_2_kilo    CONSTANT  NUMBER  :=  1.6093;\n  c_kilo_2_mile    CONSTANT  NUMBER  :=  0.6214;\n  c_yard_2_meter   NUMBER;\n  PROCEDURE calc(kilo_value NUMBER);\nEND constant_pkg;\n/\nSET SERVEROUTPUT ON\nBEGIN  \n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_mile_2_kilo);\n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_yard_2_meter);\nEND;\n/\n\nWhich is true?",
@@ -39,8 +39,8 @@
       "The second code block returns an error because package variables cannot be accessed in the anonymous block.",
       "The second code block returns an error because c_yard_2_meter is not initialized."
     ],
-    "answers": ["The second code block returns an error because the package doesn't have a body."],
-    "explanation": "When a procedure is declared in a package specification, a package body must exist. The missing package body causes a compilation error when the anonymous block tries to reference the package."
+    "answers": ["The second code block returns 1.6093 and NULL."],
+    "explanation": "The constant c_mile_2_kilo prints 1.6093; the uninitialized package variable c_yard_2_meter defaults to NULL and prints NULL; the package can be created without a body since only a procedure specification is declared; package variables can be accessed externally using dot notation; and no error occurs for uninitialized variables as they default to NULL."
   },
   {
     "question": "Which are valid PL/SQL identifier names? (Choose two)",
@@ -53,8 +53,8 @@
       "2_mile_c_kilo",
       "emp,deptdetails"
     ],
-    "answers": ["c_mile_2_kilo", "this_is_a_user_defined_variable"],
-    "explanation": "PL/SQL identifiers must start with a letter and can contain letters, digits, and underscores (_). c_mile_2_kilo and this_is_a_user_defined_variable follow these rules. $employees starts with $, dept#_details contains # (technically allowed but not best practice), 2_mile_c_kilo starts with a digit, and emp,deptdetails contains a comma."
+    "answers": ["c_mile_2_kilo", "$employees"],
+    "explanation": "PL/SQL identifiers must start with a letter and can contain letters, digits, and underscores (_). $employees starts with $, dept#_details contains # (technically allowed but not best practice), 2_mile_c_kilo starts with a digit, and emp,deptdetails contains a comma. this_is_a_user_defined_variable - Let me count: t-h-i-s--i-s--a--u-s-e-r--d-e-f-i-n-e-d-_-v-a-r-i-a-b-l-e = 33 characters Exceeds 30-character limit"
   },
   {
     "question": "Which are composite data types? (Choose two)",
@@ -240,9 +240,9 @@
     ],
     "answers": [
       "They can return values by using the RETURN clause.",
-      "They can be invoked in an INSERT statement."
+      "They can return values by using the RETURN clause."
     ],
-    "explanation": "Functions return values via RETURN statements and can be called in SQL statements like INSERT. They don't require a DECLARE section (declarations come after IS/AS), and they cannot execute as standalone PL/SQL statements."
+    "explanation": "Functions MUST have a RETURN clause in the function header to specify the return type. Additionally, the function body must contain at least one RETURN statement to return a value. Functions use the RETURN clause/statement to return values to the caller."
   },
   {
     "question": "Which are true about AUTONOMOUS TRANSACTIONs? (Choose two)",
@@ -269,7 +269,24 @@
       "They can cross a subprogram boundary.",
       "They must be contained inside a LOOP statement."
     ],
-    "answers": ["They exit the current iteration of a loop and transfer control to the end of the loop."],
-    "explanation": "CONTINUE skips the remainder of the current loop iteration and jumps to the next iteration. It must be inside a loop and cannot transfer control outside the subprogram."
-  }
+    "answers": ["They must be contained inside a LOOP statement."],
+    "explanation": "CONTINUE statements can only appear inside a loop (LOOP, WHILE, or FOR loop) and are used to skip to the next iteration of that loop."
+  },
+  {
+    "question": "Which are true about PL/SQL Procedures? (Choose two)",
+    "code": null,
+    "options": [
+        "They can be invoked as part of an expression.",
+        "They can return a value only by using the OUT parameter.",
+        "They can contain a RETURN clause.",
+        "They can return a value by using the IN OUT parameter.",
+        "They must always return a single value.",
+        "They can return values by using the RETURN clause."
+    ],
+    "answers": [
+        "They can contain a RETURN clause.",
+        "They can return a value by using the IN OUT parameter."
+    ],
+    "explanation": "Procedures can contain a RETURN statement (without a value) to exit early, and they can return values using IN OUT parameters. They cannot be invoked as part of an expression (that's for functions), don't return values only via OUT (can use multiple OUT/IN OUT parameters), don't always return a value, and don't return values via RETURN clause (functions do that)."
+    }
 ]

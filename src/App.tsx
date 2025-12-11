@@ -3,6 +3,7 @@ import { Upload, RotateCcw, ChevronRight, Check, X } from 'lucide-react';
 
 interface Question {
   question: string;
+  code?: string | null;
   options: string[];
   answers: string[];
   explanation: string;
@@ -188,6 +189,14 @@ export default function QuizApp() {
           {/* Content */}
           <div className="p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">{q.question}</h3>
+
+            {q.code && (
+              <div className="mb-6 p-4 bg-gray-900 rounded-lg overflow-x-auto">
+                <pre className="text-gray-100 font-mono text-sm whitespace-pre-wrap break-words">
+                  {q.code}
+                </pre>
+              </div>
+            )}
 
             <div className="space-y-3 mb-8">
               {q.options.map((option, idx) => {
