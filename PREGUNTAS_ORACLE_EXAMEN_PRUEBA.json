@@ -31,7 +31,7 @@
     "explanation": "Why all are valid: VARIANCE and AVG are aggregate functions valid in SQL queries within PL/SQL; COUNT is an aggregate function valid in SQL queries within PL/SQL; TO_NUMBER, SUBSTR, LENGTH, and DECODE are single-row functions that can be used directly in PL/SQL expressions. The important distinction is that single-row functions (TO_NUMBER, SUBSTR, LENGTH, DECODE) can be used directly in PL/SQL variable assignments and expressions, whereas aggregate functions (COUNT, AVG, VARIANCE) are typically used within SELECT statements in PL/SQL, not directly in variable assignments. If the question is asking specifically about functions usable in direct PL/SQL variable assignments, then TO_NUMBER, SUBSTR, LENGTH, and DECODE would be the primary answers."
   },
   {
-    "question": "Examine these code blocks:\n\nCREATE OR REPLACE PACKAGE constant_pkg IS\n  c_mile_2_kilo    CONSTANT  NUMBER  :=  1.6093;\n  c_kilo_2_mile    CONSTANT  NUMBER  :=  0.6214;\n  c_yard_2_meter   NUMBER;\n  PROCEDURE calc(kilo_value NUMBER);\nEND constant_pkg;\n/\nSET SERVEROUTPUT ON\nBEGIN  \n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_mile_2_kilo);\n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_yard_2_meter);\nEND;\n/\n\nWhich is true?",
+    "question": "Examine these code blocks: Which is true?",
     "code": "CREATE OR REPLACE PACKAGE constant_pkg IS\n  c_mile_2_kilo    CONSTANT  NUMBER  :=  1.6093;\n  c_kilo_2_mile    CONSTANT  NUMBER  :=  0.6214;\n  c_yard_2_meter   NUMBER;\n  PROCEDURE calc(kilo_value NUMBER);\nEND constant_pkg;\n/\nSET SERVEROUTPUT ON\nBEGIN  \n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_mile_2_kilo);\n   DBMS_OUTPUT.PUT_LINE(constant_pkg.c_yard_2_meter);\nEND;\n/",
     "options": [
       "The second code block returns 1.6093 and NULL.",
